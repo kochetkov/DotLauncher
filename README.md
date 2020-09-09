@@ -17,4 +17,4 @@ The main idea of DotLauncher was born due to removal "Universal Game Launcher" D
 
 # Installation and usage
 
-No installation required. Just download the archive, unpack it to any convenient place on the disk and run the executable file.
+No installation required. Just [download](https://github.com/kochetkov/DotLauncher/releases) the archive, unpack it to any convenient place on your disk and run the executable file.
