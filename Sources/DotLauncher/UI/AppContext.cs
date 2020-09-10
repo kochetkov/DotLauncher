@@ -59,6 +59,9 @@ namespace DotLauncher.UI
             BuildRefreshingMenu();
 
             mainMenu = new ContextMenuStrip();
+            mainMenu.ItemClicked += OnContextMenuItemClicked;
+            mainMenu.Closing += OnContextMenuClosing;
+
             BuildMainMenu();
         }
 
@@ -156,6 +159,9 @@ namespace DotLauncher.UI
             BuildDynamicItems(clean: true);
 
             var allGamesItem = AddToolStripMenuItem(mainMenu.Items, "All installed games");
+            allGamesItem.DropDown.ItemClicked += OnContextMenuItemClicked;
+            allGamesItem.DropDown.Closing += OnContextMenuClosing;
+
             allGamesMenuItems = allGamesItem.DropDownItems;
             _ = AddGameMenuItems(allGamesMenuItems, registry.InstalledGames).ToList();
 
@@ -260,8 +266,6 @@ namespace DotLauncher.UI
                 dropDown.ForeColor = ThemeColors.ForeColor;
                 dropDown.BackColor = ThemeColors.BackColor;
                 dropDown.ShowImageMargin = false;
-                dropDown.ItemClicked += OnContextMenuItemClicked;
-                dropDown.Closing += OnContextMenuClosing;
             }
 
             ApplyToDropDown(contextMenuStrip);

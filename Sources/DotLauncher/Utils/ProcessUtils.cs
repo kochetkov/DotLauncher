@@ -4,7 +4,7 @@ namespace DotLauncher.Utils
 {
     internal static class ProcessUtils
     {
-        public static void StartSilentAndWait(string filename, string arguments = "")
+        public static void StartSilent(string filename, string arguments = "")
         {
             var startInfo = new ProcessStartInfo(filename, arguments)
             {
@@ -13,7 +13,7 @@ namespace DotLauncher.Utils
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Process.Start(startInfo)?.WaitForExit();
+            Process.Start(startInfo);
         }
     }
 }

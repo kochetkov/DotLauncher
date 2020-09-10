@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.IO;
 using DotLauncher.Utils;
-using Microsoft.Win32;
 
 namespace DotLauncher.LibraryProviders.Steam
 {
@@ -82,7 +81,7 @@ namespace DotLauncher.LibraryProviders.Steam
 
         public void RunGame(GameDescriptor game)
         {
-            ProcessUtils.StartSilentAndWait($"steam://run/{game.AppId}");
+            ProcessUtils.StartSilent($"steam://run/{game.AppId}");
         }
     }
 }

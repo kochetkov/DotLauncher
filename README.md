@@ -10,7 +10,7 @@ The main idea of DotLauncher was born due to removal "Universal Game Launcher" D
 
 # Features
 
-* Automatic generation of a list with installed games (currently Steam and Origin libraries are supported)
+* Automatic generation of a list with installed games (currently Steam, Origin and Epic libraries are supported)
 * The ability to launch any game in two clicks
 * Smart list of the most played games
 * Adding games to the favorites list

@@ -16,7 +16,8 @@ namespace DotLauncher.LibraryProviders.Origin
 {
     internal sealed class OriginProvider : ILibraryProvider
     {
-        private const string DataPath = @"c:\ProgramData\Origin\";
+        private static readonly string DataPath =
+            $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\Origin\";
 
         public Color BrandColor { get; } = Color.FromArgb(245, 108, 45);
 
@@ -70,7 +71,7 @@ namespace DotLauncher.LibraryProviders.Origin
 
         public void RunGame(GameDescriptor game)
         {
-            ProcessUtils.StartSilentAndWait($"origin://launchgame/{game.AppId}");
+            ProcessUtils.StartSilent($"origin://launchgame/{game.AppId}");
         }
 
         private static GameLocalDataResponse GetGameLocalData(string gameId)

@@ -94,18 +94,6 @@ namespace DotLauncher
             return gamesLibraryProviders[gameDescriptor].BrandColor;
         }
 
-        public DateTime GetGameLastActivity(GameDescriptor gameDescriptor)
-        {
-            Debug.Assert(gamesData.ContainsKey(gameDescriptor.AppId));
-            return gamesData[gameDescriptor.AppId].LastActivity;
-        }
-
-        public uint GetGameLaunchCount(GameDescriptor gameDescriptor)
-        {
-            Debug.Assert(gamesData.ContainsKey(gameDescriptor.AppId));
-            return gamesData[gameDescriptor.AppId].LaunchCount;
-        }
-
         public bool GetGameAddedToFavorites(GameDescriptor gameDescriptor)
         {
             Debug.Assert(gamesData.ContainsKey(gameDescriptor.AppId));

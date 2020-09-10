@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using DotLauncher.LibraryProviders;
+using DotLauncher.LibraryProviders.Epic;
 using DotLauncher.LibraryProviders.Origin;
 using DotLauncher.LibraryProviders.Steam;
-using DotLauncher.UI;
 using DotLauncher.Utils;
 
 
@@ -23,8 +23,9 @@ namespace DotLauncher
 
             var launcherProviders = new ILibraryProvider[]
             {
-                new SteamProvider(), 
-                new OriginProvider()
+                new SteamProvider(),
+                new OriginProvider(),
+                new EpicProvider()
             };
 
             var registry = new Registry(launcherProviders);
