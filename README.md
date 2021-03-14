@@ -2,7 +2,7 @@
 
 **DotLauncher** is a minimalist aggregator of popular game launchers allowing to start any installed game in two clicks through the tray icon menu:
 
-![Screenshot](Resources/screenshot.png)
+![Screenshot](Resources/screenshot-transparent.png)
 
 The main idea of DotLauncher was born due to removal "Universal Game Launcher" Discord feature ([blog post](https://blog.discord.com/were-constantly-listening-to-your-feedback-and-working-to-improve-how-discord-feels-and-functions-676a5cb3ab63)) and out of desire to replace it with some non-complex 3rd-party utility. 
 
