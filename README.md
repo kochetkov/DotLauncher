@@ -1,8 +1,6 @@
 **Disclaimer**: currently, this project is in the early alpha version with a *minimal set of features* and (sometimes) *not very stable work*.
 
-![DotLauncher](Resources/logo.png)
-
-DotLauncher is a minimalist aggregator of popular game launchers allowing to start any installed game in two clicks through the tray icon menu:
+**DotLauncher** is a minimalist aggregator of popular game launchers allowing to start any installed game in two clicks through the tray icon menu:
 
 ![Screenshot](Resources/screenshot.png)
 
