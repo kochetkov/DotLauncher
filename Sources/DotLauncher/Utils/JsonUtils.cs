@@ -1,18 +1,24 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 
 namespace DotLauncher.Utils
 {
     public static class JsonUtils
     {
-        public static string Serialize<T>(T obj)
+        public static string Serialize<T>(T obj, bool writeIndented = true)
         {
             var options = new JsonSerializerOptions
             {
-                WriteIndented = true,
+                WriteIndented = writeIndented,
             };
 
-            return JsonSerializer.Serialize(obj, options);
+            var serializedObj = obj is Exception exception
+                ? SerializeException(exception, writeIndented)
+                : JsonSerializer.Serialize(obj, options);
+            
+            return serializedObj;
         }
 
         public static T Deserialize<T>(string jsonString)
@@ -41,6 +47,19 @@ namespace DotLauncher.Utils
             }
 
             return jsonElement.GetString();
+        }
+
+        private static string SerializeException(Exception exception, bool writeIndented)
+        {
+            var exceptionProperties = new Dictionary<string, object>
+            {
+                {"Type", exception.GetType().ToString()},
+                {"Message", exception.Message},
+                {"Source", exception.Source},
+                {"StackTrace", exception.StackTrace}
+            };
+
+            return Serialize(exceptionProperties, writeIndented);
         }
     }
 }

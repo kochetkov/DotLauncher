@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using DotLauncher.LibraryProviders;
 using DotLauncher.LibraryProviders.Epic;
 using DotLauncher.LibraryProviders.Origin;
@@ -20,17 +21,38 @@ namespace DotLauncher
         private static void Main()
         {
             InitAppDataDirectory();
+            Logger.Init(PathUtils.Combine(AppDataDirectoryPath, "Logs"));
 
-            var launcherProviders = new ILibraryProvider[]
+            try
             {
-                new SteamProvider(),
-                new OriginProvider(),
-                new EpicProvider()
-            };
+                var applicationVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                Logger.Info($"Application version: {applicationVersion}");
 
-            var registry = new Registry(launcherProviders);
-            var appContext = new UI.AppContext(registry);
-            appContext.Run();
+                var systemInformation = SystemUtils.GetSystemInformation();
+                Logger.Info("System information collected", systemInformation);
+
+                var environmentInformation = SystemUtils.GetEnvironmentInformation();
+                Logger.Info("Environment information collected", environmentInformation);
+
+                var launcherProviders = new ILibraryProvider[]
+                {
+                    new SteamProvider(),
+                    new OriginProvider(),
+                    new EpicProvider()
+                };
+
+                var registry = new Registry(launcherProviders);
+                var appContext = new UI.AppContext(registry);
+
+                appContext.Run();
+            }
+            catch (Exception e)
+            {
+                Logger.Fatal("Unhandled exception thrown", e);
+                throw;
+            }
+
+            Logger.Info("Application terminated successfully");
         }
 
         private static void InitAppDataDirectory()
