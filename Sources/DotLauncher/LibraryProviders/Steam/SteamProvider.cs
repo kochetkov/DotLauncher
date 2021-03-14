@@ -28,7 +28,10 @@ namespace DotLauncher.LibraryProviders.Steam
 
         public IEnumerable<GameDescriptor> CollectInstalledGames()
         {
-            var libraryFolders = new HashSet<string> { PathUtils.Combine(steamInstallationDir, "steamapps")};
+            if (!File.Exists(libraryFoldersPath)) { yield break; }
+
+            var steamAppsPath = PathUtils.Combine(steamInstallationDir, "steamapps");
+            var libraryFolders = new HashSet<string> { steamAppsPath };
             var librabyFoldersKv = KeyValue.LoadAsText(libraryFoldersPath);
 
             if (librabyFoldersKv.Name == "LibraryFolders")
@@ -44,6 +47,8 @@ namespace DotLauncher.LibraryProviders.Steam
 
             foreach (var libraryFolder in libraryFolders)
             {
+                if (!Directory.Exists(libraryFolder)) { continue; }
+
                 var appmanifestFilePaths = Directory.GetFiles(libraryFolder, "appmanifest_*.acf");
 
                 foreach (var appmanifestFilePath in appmanifestFilePaths)

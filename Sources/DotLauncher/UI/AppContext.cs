@@ -158,12 +158,23 @@ namespace DotLauncher.UI
 
             BuildDynamicItems(clean: true);
 
-            var allGamesItem = AddToolStripMenuItem(mainMenu.Items, "All installed games");
-            allGamesItem.DropDown.ItemClicked += OnContextMenuItemClicked;
-            allGamesItem.DropDown.Closing += OnContextMenuClosing;
+            ToolStripMenuItem allGamesItem;
 
-            allGamesMenuItems = allGamesItem.DropDownItems;
-            _ = AddGameMenuItems(allGamesMenuItems, registry.InstalledGames).ToList();
+            if (registry.InstalledGames.Count != 0)
+            {
+                allGamesItem = AddToolStripMenuItem(mainMenu.Items, "All installed games");
+                allGamesItem.DropDown.ItemClicked += OnContextMenuItemClicked;
+                allGamesItem.DropDown.Closing += OnContextMenuClosing;
+
+                allGamesMenuItems = allGamesItem.DropDownItems;
+                _ = AddGameMenuItems(allGamesMenuItems, registry.InstalledGames).ToList();
+
+            }
+            else
+            {
+                allGamesItem = AddToolStripMenuItem(mainMenu.Items, "No games installed");
+                allGamesItem.Enabled = false;
+            }
 
             AddMenuSeparator(mainMenu.Items);
             

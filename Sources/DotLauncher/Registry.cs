@@ -44,20 +44,43 @@ namespace DotLauncher
             // Update installed games
             foreach (var libraryProvider in libraryProviders)
             {
-                var collectedGames = libraryProvider.CollectInstalledGames();
-
-                var tempList = new List<GameDescriptor>();
-
-                foreach (var gameDescriptor in collectedGames)
+                try
                 {
-                    var appId = gameDescriptor.AppId;
-                    if (!gamesData.ContainsKey(appId)) { gamesData.Add(appId, new GameData { AppId = appId }); }
-                    gamesLibraryProviders.Add(gameDescriptor, libraryProvider);
-                    tempList.Add(gameDescriptor);
-                }
+                    var collectedGames = libraryProvider.CollectInstalledGames();
 
-                tempList.Sort();
-                InstalledGames.AddRange(tempList);
+                    var tempList = new List<GameDescriptor>();
+
+                    foreach (var gameDescriptor in collectedGames)
+                    {
+                        var appId = gameDescriptor.AppId;
+
+                        if (!gamesData.ContainsKey(appId))
+                        {
+                            gamesData.Add(appId, new GameData { AppId = appId });
+                        }
+
+                        if (!gamesLibraryProviders.TryAdd(gameDescriptor, libraryProvider))
+                        {
+                            Logger.Warn("Game descriptor already present in gamesLibraryProviders dictionary", gameDescriptor);
+                        }
+
+                        if (tempList.Contains(gameDescriptor))
+                        {
+                            Logger.Warn("Game descriptor already present in tempList list", gameDescriptor);
+                        }
+                        else
+                        {
+                            tempList.Add(gameDescriptor);
+                        }
+                    }
+
+                    tempList.Sort();
+                    InstalledGames.AddRange(tempList);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Unhandled exception thrown during installed games collection", e);
+                }
             }
 
             // Remove orphaned games data

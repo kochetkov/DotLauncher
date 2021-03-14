@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text.Json;
 using DotLauncher.Utils;
 
 namespace DotLauncher.LibraryProviders.Epic
@@ -16,6 +15,8 @@ namespace DotLauncher.LibraryProviders.Epic
 
         public IEnumerable<GameDescriptor> CollectInstalledGames()
         {
+            if (!Directory.Exists(ManifestsPath)) { yield break; }
+
             var manifestsFiles = Directory.GetFiles(ManifestsPath, "*.item", SearchOption.TopDirectoryOnly);
 
             foreach (var manifestsFile in manifestsFiles)

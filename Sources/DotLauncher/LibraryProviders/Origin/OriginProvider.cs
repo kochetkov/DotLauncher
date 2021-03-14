@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using DotLauncher.Utils;
@@ -22,6 +21,8 @@ namespace DotLauncher.LibraryProviders.Origin
 
         public IEnumerable<GameDescriptor> CollectInstalledGames()
         {
+            if (!Directory.Exists(DataPath)) { yield break; }
+
             var contentPath = PathUtils.Combine(DataPath, "LocalContent");
 
             if (Directory.Exists(contentPath))
