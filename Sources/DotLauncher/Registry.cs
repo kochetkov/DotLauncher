@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using DotLauncher.LibraryProviders;
 using DotLauncher.Utils;
-using Newtonsoft.Json;
 
 namespace DotLauncher
 {
@@ -52,7 +51,7 @@ namespace DotLauncher
                 foreach (var gameDescriptor in collectedGames)
                 {
                     var appId = gameDescriptor.AppId;
-                    if (!gamesData.ContainsKey(appId)) { gamesData.Add(appId, new GameData(appId)); }
+                    if (!gamesData.ContainsKey(appId)) { gamesData.Add(appId, new GameData { AppId = appId }); }
                     gamesLibraryProviders.Add(gameDescriptor, libraryProvider);
                     tempList.Add(gameDescriptor);
                 }
@@ -133,7 +132,7 @@ namespace DotLauncher
                 .Take(5) // TODO: Move mpg count treshold value to settings
                 .Reverse();
 
-            foreach (var (appId, gameData) in sortedByLaunchCount)
+            foreach (var (appId, _) in sortedByLaunchCount)
             {
                 var mpgGameDescriptor = GetGameDescriptorByAppId(appId);
                 MostPlayedGames.Add(mpgGameDescriptor);
@@ -143,23 +142,12 @@ namespace DotLauncher
         private GameDescriptor GetGameDescriptorByAppId(string appId) 
             => InstalledGames.Find(gameDescriptor => gameDescriptor.AppId == appId);
 
-        private void LoadGamesData()
-        {
-            if (File.Exists(gamesDataJsonPath))
-            {
-                var gamesDataJson = File.ReadAllText(gamesDataJsonPath);
-                gamesData = JsonConvert.DeserializeObject<Dictionary<string, GameData>>(gamesDataJson);
-            }
-            else
-            {
-                gamesData = new Dictionary<string, GameData>();
-            }
-        }
+        private void LoadGamesData() =>
+            gamesData = File.Exists(gamesDataJsonPath)
+                ? JsonUtils.DeserializeFromFile<Dictionary<string, GameData>>(gamesDataJsonPath)
+                : new Dictionary<string, GameData>();
 
-        private void SaveGamesData()
-        {
-            var gamesDataJson = JsonConvert.SerializeObject(gamesData, Formatting.Indented);
-            File.WriteAllText(gamesDataJsonPath, gamesDataJson);
-        }
+        private void SaveGamesData() =>
+            JsonUtils.SerializeToFile(gamesData, gamesDataJsonPath);
     }
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotLauncher", "DotLauncher\DotLauncher.csproj", "{735499DC-3B66-4C89-9CFE-9DDE30BABE12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotLauncher", "DotLauncher\DotLauncher.csproj", "{735499DC-3B66-4C89-9CFE-9DDE30BABE12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

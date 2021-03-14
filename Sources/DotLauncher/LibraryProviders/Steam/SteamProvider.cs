@@ -29,7 +29,6 @@ namespace DotLauncher.LibraryProviders.Steam
         public IEnumerable<GameDescriptor> CollectInstalledGames()
         {
             var libraryFolders = new HashSet<string> { PathUtils.Combine(steamInstallationDir, "steamapps")};
-
             var librabyFoldersKv = KeyValue.LoadAsText(libraryFoldersPath);
 
             if (librabyFoldersKv.Name == "LibraryFolders")

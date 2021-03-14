@@ -20,7 +20,7 @@ namespace DotLauncher.Utils
 
             if (Regex.IsMatch(newName, @",\s*The$"))
             {
-                newName = "The " + Regex.Replace(newName, @",\s*The$", "", RegexOptions.IgnoreCase);
+                newName = "The " + Regex.Replace(newName, @",\s*The$", string.Empty, RegexOptions.IgnoreCase);
             }
 
             return newName.Trim();

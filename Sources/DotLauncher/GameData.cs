@@ -1,12 +1,10 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace DotLauncher
 {
-    [JsonObject(MemberSerialization.OptOut)]
     internal class GameData
     {
-        public string AppId { get; }
+        public string AppId { get; set; }
 
         public uint LaunchCount { get; set; }
 
@@ -15,10 +13,5 @@ namespace DotLauncher
         public bool IsFavorite { get; set; }
 
         public DateTime AddedToFavorites { get; set; }
-
-        public GameData(string appId)
-        {
-            AppId = appId;
-        }
     }
 }

@@ -10,7 +10,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using DotLauncher.Utils;
-using Newtonsoft.Json;
 
 namespace DotLauncher.LibraryProviders.Origin
 {
@@ -32,7 +31,7 @@ namespace DotLauncher.LibraryProviders.Origin
                 foreach (var package in packages)
                 {
                     string gameId;
-                    string gameName;
+                    string gameName = default;
 
                     try
                     {
@@ -43,23 +42,18 @@ namespace DotLauncher.LibraryProviders.Origin
                             // Get game id by fixing file via adding : before integer part of the name
                             // for example OFB-EAST52017 converts to OFB-EAST:52017
                             var match = Regex.Match(gameId, @"^(.*?)(\d+)$");
-                            if (!match.Success)
-                            {
-                                continue;
-                            }
-
+                            if (!match.Success) { continue; }
                             gameId = match.Groups[1].Value + ":" + match.Groups[2].Value;
                         }
 
                         var localData = GetGameLocalData(gameId);
-                        if (localData == null) { continue; }
-                        if (localData.offerType != "Base Game" && localData.offerType != "DEMO") { continue; }
-                        gameName = StringExtensions.NormalizeGameName(localData.localizableAttributes.displayName);
+                        
+                        if (localData.OfferType == "Base Game" || localData.OfferType == "DEMO")
+                        {
+                            gameName = StringExtensions.NormalizeGameName(localData.DisplayName);
+                        }
                     }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
+                    catch (Exception) { continue; }
 
                     if (!string.IsNullOrEmpty(gameId) && !string.IsNullOrEmpty(gameName))
                     {
@@ -74,19 +68,15 @@ namespace DotLauncher.LibraryProviders.Origin
             ProcessUtils.StartSilent($"origin://launchgame/{game.AppId}");
         }
 
-        private static GameLocalDataResponse GetGameLocalData(string gameId)
+        private static GameLocalData GetGameLocalData(string gameId)
         {
-            try
-            {
-                var url = $@"https://api1.origin.com/ecommerce2/public/{gameId}/en_US";
-                var webClient = new WebClient();
-                var stringData = Encoding.UTF8.GetString(webClient.DownloadData(url));
-                return JsonConvert.DeserializeObject<GameLocalDataResponse>(stringData);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var url = $@"https://api1.origin.com/ecommerce2/public/{gameId}/en_US";
+            var webClient = new WebClient();
+            var stringData = Encoding.UTF8.GetString(webClient.DownloadData(url));
+            var offerType = JsonUtils.GetStringProperty(stringData, "offerType");
+            var displayName = JsonUtils.GetStringProperty(stringData, "localizableAttributes", "displayName");
+
+            return new GameLocalData(offerType, displayName);
         }
     }
 }
