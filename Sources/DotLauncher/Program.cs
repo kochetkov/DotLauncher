@@ -20,8 +20,18 @@ namespace DotLauncher
         [STAThread]
         private static void Main()
         {
-            InitAppDataDirectory();
+            AppDataDirectoryPath = PathUtils.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "DotLauncher"
+            );
+
+            if (!Directory.Exists(AppDataDirectoryPath))
+            {
+                Directory.CreateDirectory(AppDataDirectoryPath);
+            }
+
             Logger.Init(PathUtils.Combine(AppDataDirectoryPath, "Logs"));
+            WebUtils.Init(PathUtils.Combine(AppDataDirectoryPath, "Cache"));
 
             try
             {
@@ -53,19 +63,6 @@ namespace DotLauncher
             }
 
             Logger.Info("Application terminated successfully");
-        }
-
-        private static void InitAppDataDirectory()
-        {
-            AppDataDirectoryPath = PathUtils.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "DotLauncher"
-            );
-
-            if (!Directory.Exists(AppDataDirectoryPath))
-            {
-                Directory.CreateDirectory(AppDataDirectoryPath);
-            }
         }
     }
 }

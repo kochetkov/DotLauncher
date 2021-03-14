@@ -16,7 +16,7 @@ namespace DotLauncher.Utils
     public static class Logger
     {
         private static string logFileName;
-        private static object lockObject = new object();
+        private static readonly object LockObject = new object();
 
         public static void Init(string logsDirectory)
         {
@@ -55,7 +55,7 @@ namespace DotLauncher.Utils
 
             sb.AppendLine();
 
-            lock (lockObject)
+            lock (LockObject)
             {
                 File.AppendAllText(logFileName, sb.ToString());
             }

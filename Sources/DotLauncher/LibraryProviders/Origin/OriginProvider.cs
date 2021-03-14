@@ -71,8 +71,8 @@ namespace DotLauncher.LibraryProviders.Origin
         private static GameLocalData GetGameLocalData(string gameId)
         {
             var url = $@"https://api1.origin.com/ecommerce2/public/{gameId}/en_US";
-            var webClient = new WebClient();
-            var stringData = Encoding.UTF8.GetString(webClient.DownloadData(url));
+            var stringData = WebUtils.Download(url, Encoding.UTF8);
+
             var offerType = JsonUtils.GetStringProperty(stringData, "offerType");
             var displayName = JsonUtils.GetStringProperty(stringData, "localizableAttributes", "displayName");
 
